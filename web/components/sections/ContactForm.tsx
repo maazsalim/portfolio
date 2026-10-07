@@ -5,8 +5,8 @@ import { sendContactMessage, type ContactField } from "@/lib/api";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
-/** Limits mirror the server-side validator in the API. */
-const LIMITS = { name: 100, email: 254, message: 5000 } as const;
+/** Limits mirror ContactRequestValidator in the API. */
+const LIMITS = { name: 100, email: 254, messageMin: 10, message: 5000 } as const;
 
 const inputClass =
   "mt-1 block w-full rounded-md border border-border bg-bg px-3 py-2 text-fg-strong placeholder:text-fg-muted focus:border-accent aria-[invalid=true]:border-danger";
@@ -84,6 +84,7 @@ export function ContactForm() {
           name="message"
           required
           rows={5}
+          minLength={LIMITS.messageMin}
           maxLength={LIMITS.message}
           aria-invalid={Boolean(fieldErrors.message)}
           aria-describedby={fieldErrors.message ? "message-error" : undefined}

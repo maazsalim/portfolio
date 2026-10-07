@@ -22,7 +22,7 @@ function timeAgo(iso: string): string {
 }
 
 /**
- * Live GitHub activity from GET /api/github. Loaded in the browser so the
+ * Recently pushed GitHub repos from GET /api/github. Loaded in the browser so the
  * rest of the site stays fully static. If the API is down, the section
  * quietly falls back to a link to the GitHub profile.
  */
@@ -40,7 +40,7 @@ export function RecentActivity() {
   }, []);
 
   return (
-    <Section id="activity" title="Recent activity">
+    <Section id="activity" title="On GitHub">
       <div aria-live="polite" aria-busy={state.status === "loading"}>
         {state.status === "loading" && <ActivitySkeleton />}
         {state.status === "ready" && state.repos.length > 0 && (
@@ -60,7 +60,7 @@ export function RecentActivity() {
         rel="noopener noreferrer"
         className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-fg-strong hover:text-accent"
       >
-        {state.status === "error" ? "See my latest work on GitHub" : "More on GitHub"}
+        {state.status === "error" ? "See my work on GitHub" : "View all repositories"}
         <ArrowUpRightIcon className="h-4 w-4" />
         <span className="sr-only">(opens in a new tab)</span>
       </a>
@@ -95,7 +95,7 @@ function RepoCard({ repo }: { repo: RepoSummary }) {
 
 function ActivitySkeleton() {
   return (
-    <ul className="grid gap-3 sm:grid-cols-2" aria-label="Loading recent activity">
+    <ul className="grid gap-3 sm:grid-cols-2" aria-label="Loading GitHub repositories">
       {[0, 1, 2, 3].map((i) => (
         <li key={i} className="h-24 animate-pulse rounded-lg bg-surface" />
       ))}

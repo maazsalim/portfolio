@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import { InlineScript } from "@/components/ui/InlineScript";
 import { site } from "@/content/site";
 import { themeInitScript } from "@/lib/theme";
 import "./globals.css";
@@ -48,7 +49,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     // suppressHydrationWarning: the theme script sets data-theme before React hydrates.
     <html lang="en" className={`${inter.variable} antialiased`} suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <InlineScript html={themeInitScript} />
       </head>
       <body className="font-sans leading-relaxed">
         <a

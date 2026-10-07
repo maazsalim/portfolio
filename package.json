@@ -4,15 +4,16 @@
   "description": "Developer portfolio: Next.js static site + C# Azure Functions API on Azure Static Web Apps",
   "scripts": {
     "setup": "npm install && npm --prefix web install && dotnet restore api",
-    "dev": "concurrently --names web,api,swa --prefix-colors cyan,magenta,gray --kill-others \"npm:dev:web\" \"npm:dev:api\" \"npm:dev:swa\"",
+    "dev": "concurrently --names web,api --prefix-colors cyan,magenta --kill-others \"npm:dev:web\" \"npm:dev:api\"",
+    "dev:azure": "concurrently --names web,api,swa --prefix-colors cyan,magenta,gray --kill-others \"npm:dev:web\" \"npm:dev:api\" \"npm:dev:swa\"",
     "dev:web": "npm --prefix web run dev",
     "dev:api": "cd api/Portfolio.Api && func start",
+    "dev:swa": "swa start portfolio",
     "build": "npm --prefix web run build && dotnet build api -c Release",
     "test": "dotnet test api",
     "lint": "npm --prefix web run lint && npm --prefix web run typecheck",
     "check": "npm run lint && npm test && npm run build",
-    "todo": "node scripts/list-todos.mjs",
-    "dev:swa": "swa start portfolio"
+    "todo": "node scripts/list-todos.mjs"
   },
   "engines": {
     "node": ">=20"
