@@ -6,12 +6,12 @@ export function Skills() {
     <Section id="skills" title="Skills">
       <dl className="grid gap-6 sm:grid-cols-2">
         {skills.map((group) => (
-          <div key={group.name}>
+          <div key={group.name} className="reveal">
             <dt className="text-sm font-semibold text-fg-strong">{group.name}</dt>
             <dd className="mt-2">
               <ul className="flex flex-wrap gap-2" aria-label={`${group.name} skills`}>
                 {group.skills.map((skill) => (
-                  <li key={skill} className="rounded-md border border-border px-2.5 py-1 text-sm">
+                  <li key={skill} className="rounded-md border border-border bg-card px-2.5 py-1 text-sm transition-colors hover:border-accent hover:text-fg-strong">
                     {skill}
                   </li>
                 ))}

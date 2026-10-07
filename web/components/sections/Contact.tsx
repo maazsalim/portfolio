@@ -28,7 +28,9 @@ export function Contact() {
           </a>
         </li>
       </ul>
-      <ContactForm />
+      <div className="reveal">
+        <ContactForm />
+      </div>
     </Section>
   );
 }

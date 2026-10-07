@@ -7,8 +7,8 @@ export function Experience() {
     <Section id="experience" title="Experience">
       <ol className="group/list space-y-12">
         {experience.map((job) => (
-          <li key={`${job.company}-${job.start}`}>
-            <article className="grid gap-1 rounded-lg transition-all sm:grid-cols-8 sm:gap-8 md:gap-4 lg:p-4 lg:group-hover/list:opacity-60 lg:hover:opacity-100! lg:hover:bg-surface/50 lg:hover:shadow-lg">
+          <li key={`${job.company}-${job.start}`} className="reveal">
+            <article className="grid gap-1 rounded-xl transition-all duration-300 sm:grid-cols-8 sm:gap-8 md:gap-4 lg:spotlight-card lg:p-5 lg:group-hover/list:opacity-60 lg:hover:-translate-y-0.5 lg:hover:opacity-100! lg:hover:shadow-[0_12px_40px_-16px_var(--accent)]">
               <p className="mt-1 text-xs font-semibold tracking-wide text-fg-muted uppercase sm:col-span-2">
                 {job.start} – {job.end}
               </p>

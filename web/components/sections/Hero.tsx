@@ -11,7 +11,7 @@ export function Hero({ navItems }: { navItems: NavItem[] }) {
   return (
     <header className="lg:sticky lg:top-0 lg:flex lg:max-h-screen lg:w-[48%] lg:flex-col lg:justify-between lg:py-24">
       <div>
-        <h1 className="text-4xl font-bold tracking-tight text-fg-strong sm:text-5xl">{site.name}</h1>
+        <h1 className="gradient-text pb-1 text-4xl font-bold tracking-tight sm:text-5xl">{site.name}</h1>
         <p className="mt-3 text-lg font-medium tracking-tight text-fg-strong sm:text-xl">{site.title}</p>
         <p className="mt-4 max-w-sm leading-normal">{site.pitch}</p>
 

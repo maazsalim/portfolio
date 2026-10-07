@@ -44,7 +44,7 @@ export function RecentActivity() {
       <div aria-live="polite" aria-busy={state.status === "loading"}>
         {state.status === "loading" && <ActivitySkeleton />}
         {state.status === "ready" && state.repos.length > 0 && (
-          <ul className="grid gap-3 sm:grid-cols-2">
+          <ul className="reveal grid gap-3 sm:grid-cols-2">
             {state.repos.map((repo) => (
               <li key={repo.name}>
                 <RepoCard repo={repo} />
@@ -74,7 +74,7 @@ function RepoCard({ repo }: { repo: RepoSummary }) {
       href={repo.url}
       target="_blank"
       rel="noopener noreferrer"
-      className="flex h-full flex-col rounded-lg border border-border p-4 transition-colors hover:border-accent"
+      className="spotlight-card flex h-full flex-col rounded-xl p-4 transition-transform duration-300 hover:-translate-y-0.5"
     >
       <span className="text-sm font-semibold text-fg-strong">{repo.name}</span>
       {repo.description && <span className="mt-1 line-clamp-2 text-sm">{repo.description}</span>}

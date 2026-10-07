@@ -8,9 +8,9 @@ import { TagList } from "@/components/ui/TagList";
 export function Projects() {
   return (
     <Section id="projects" title="Projects">
-      <ol className="group/list space-y-12">
+      <ol className="group/list space-y-10 lg:space-y-12">
         {projects.map((project) => (
-          <li key={project.slug}>
+          <li key={project.slug} className="reveal">
             <ProjectCard project={project} />
           </li>
         ))}
@@ -23,12 +23,12 @@ function ProjectCard({ project }: { project: Project }) {
   const { slug, title, problem, role, tech, links } = project;
 
   return (
-    <article className="group relative grid gap-2 rounded-lg transition-all lg:p-4 lg:hover:bg-surface/50 lg:group-hover/list:opacity-60 lg:hover:opacity-100! lg:hover:shadow-lg">
+    <article className="spotlight-card group relative grid gap-2 rounded-xl p-5 transition-all duration-300 lg:group-hover/list:opacity-60 lg:hover:-translate-y-0.5 lg:hover:opacity-100! lg:hover:shadow-[0_12px_40px_-16px_var(--accent)]">
       <h3 className="font-semibold leading-snug text-fg-strong">
         {/* The ::after makes the whole card clickable while keeping one real link. */}
         <Link
           href={`/projects/${slug}/`}
-          className="inline-flex items-baseline gap-1 transition-colors after:absolute after:inset-0 after:rounded-lg hover:text-accent focus-visible:text-accent"
+          className="inline-flex items-baseline gap-1 transition-colors after:absolute after:inset-0 after:rounded-xl hover:text-accent focus-visible:text-accent"
         >
           {title}
           <ArrowUpRightIcon className="h-4 w-4 shrink-0 translate-y-px transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />

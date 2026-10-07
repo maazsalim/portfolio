@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { InlineScript } from "@/components/ui/InlineScript";
+import { PointerGlow } from "@/components/ui/PointerGlow";
 import { site } from "@/content/site";
 import { themeInitScript } from "@/lib/theme";
 import "./globals.css";
@@ -52,6 +53,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <InlineScript html={themeInitScript} />
       </head>
       <body className="font-sans leading-relaxed">
+        <PointerGlow />
         <a
           href="#content"
           className="fixed top-4 left-4 z-50 -translate-y-24 rounded-md bg-accent px-4 py-2 text-sm font-semibold text-bg focus:translate-y-0"
