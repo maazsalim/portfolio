@@ -1,0 +1,11 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "Resend__ApiKey": "re_your_resend_api_key",
+    "Resend__From": "Portfolio <onboarding@resend.dev>",
+    "Resend__To": "you@example.com",
+    "GitHub__Username": "maazsalim",
+    "GitHub__Token": ""
+  }
+}

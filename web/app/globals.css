@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens. Components use these via Tailwind utilities
+ * (bg-bg, text-fg, text-accent, ...) and never hard-code colours,
+ * so light/dark is handled entirely here.
+ *
+ * Theme resolution:
+ *  1. An inline script in layout.tsx sets data-theme on <html> from
+ *     localStorage or the system preference before first paint.
+ *  2. Without JS, the prefers-color-scheme media query still applies.
+ */
+:root {
+  color-scheme: light;
+  --bg: #f8fafc;
+  --surface: #f1f5f9;
+  --fg: #475569;
+  --fg-strong: #0f172a;
+  --fg-muted: #5b6779;
+  --border: #e2e8f0;
+  --accent: #0f766e;
+  --accent-soft: rgb(15 118 110 / 0.1);
+  --danger: #b91c1c;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --fg: #94a3b8;
+    --fg-strong: #e2e8f0;
+    --fg-muted: #8291a8;
+    --border: #1e293b;
+    --accent: #5eead4;
+    --accent-soft: rgb(45 212 191 / 0.1);
+    --danger: #f87171;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --fg: #94a3b8;
+  --fg-strong: #e2e8f0;
+  --fg-muted: #8291a8;
+  --border: #1e293b;
+  --accent: #5eead4;
+  --accent-soft: rgb(45 212 191 / 0.1);
+  --danger: #f87171;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-fg: var(--fg);
+  --color-fg-strong: var(--fg-strong);
+  --color-fg-muted: var(--fg-muted);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-danger: var(--danger);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-padding-top: 1.5rem;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+/* The theme toggle shows the icon for the theme you'd switch to. */
+.theme-icon-moon {
+  display: block;
+}
+.theme-icon-sun {
+  display: none;
+}
+:root[data-theme="dark"] .theme-icon-moon {
+  display: none;
+}
+:root[data-theme="dark"] .theme-icon-sun {
+  display: block;
+}

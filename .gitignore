@@ -1,0 +1,26 @@
+# OS / editors
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Web (Next.js)
+node_modules/
+.next/
+web/out/
+web/next-env.d.ts
+*.tsbuildinfo
+.env*.local
+
+# API (.NET / Azure Functions)
+bin/
+obj/
+TestResults/
+*.user
+api/**/local.settings.json
+
+# Azure SWA CLI
+.swa/
+
+# Claude Code local config
+.claude/
