@@ -47,6 +47,7 @@ The site and API share one origin, so the browser calls `/api/...` directly with
 
 ```
 .
+├── .github/workflows/           CI/CD: lint, test, build, deploy to Azure
 ├── web/                         Next.js front end (static export)
 │   ├── app/                     Routes, layout, metadata, sitemap, OG image
 │   │   └── projects/[slug]/     Case-study pages, generated from content
@@ -55,7 +56,7 @@ The site and API share one origin, so the browser calls `/api/...` directly with
 │   │   └── ui/                  Shared pieces: Section, TagList, ThemeToggle, icons…
 │   ├── content/                 ← All site copy, as typed data
 │   ├── lib/                     Typed API client, theme script
-│   └── public/                  Resume PDF and static assets
+│   └── public/                  Resume PDF, staticwebapp.config.json, static assets
 ├── api/
 │   ├── Portfolio.Api/           Azure Functions app
 │   │   ├── Functions/           HTTP triggers (thin: parse → delegate → respond)
@@ -96,7 +97,7 @@ npm run dev
 
 Open **http://localhost:3000**. This starts the Next.js dev server (with live reload) and the Functions host on port 7071. In development, Next forwards `/api/*` to the Functions host. The first start takes about 30 seconds while the API compiles.
 
-To run behind the Static Web Apps emulator, which applies Azure's routing exactly as production does, use `npm run dev:azure` and open http://localhost:4280. The emulator doesn't support live reload.
+To check the **production build** exactly as Azure will serve it (routes, 404 page, security and cache headers from [`staticwebapp.config.json`](web/public/staticwebapp.config.json)), run `npm run preview` and open http://localhost:4280. This builds the static site and serves it through the Static Web Apps emulator, with no live reload.
 
 ### Scripts
 
@@ -104,7 +105,7 @@ To run behind the Static Web Apps emulator, which applies Azure's routing exactl
 |---|---|
 | `npm run setup` | Install all dependencies (root, web, .NET) |
 | `npm run dev` | Site + API with live reload, on :3000 |
-| `npm run dev:azure` | Same, behind the SWA emulator, on :4280 |
+| `npm run preview` | Production build behind the SWA emulator, on :4280 |
 | `npm run check` | Lint, typecheck, run tests, build everything. Run before pushing |
 | `npm test` | API tests only |
 | `npm run todo` | List placeholders that still need real content |
@@ -170,17 +171,33 @@ Set these as application settings (Azure portal → Static Web App → **Environ
 
 ## Deployment
 
-<!-- TODO(stage 4): confirm these steps against the real workflow and staticwebapp.config.json once added. -->
+The site deploys to **Azure Static Web Apps (Free plan)** through [GitHub Actions](.github/workflows/azure-static-web-apps.yml):
 
-The site deploys to **Azure Static Web Apps (Free plan)** through GitHub Actions on every push to `main`.
+- **Push to `main`:** lint, typecheck, test, build, then deploy to production.
+- **Pull request:** the same checks, then a temporary preview environment whose URL is posted on the PR. It's deleted when the PR closes.
 
-1. Create a Static Web App in the Azure portal: choose the **Free** plan and connect this GitHub repo and the `main` branch.
-2. Build settings: app location `web`, output location `out`, API location `api/Portfolio.Api`.
-3. Azure commits a GitHub Actions workflow to `.github/workflows/` and adds the deployment token as a repo secret.
-4. Add the API settings from [Configuration](#configuration) under **Environment variables**.
+The workflow builds the site and API itself and uploads only the finished output (`skip_app_build` / `skip_api_build`), so tool versions are pinned and a failing test blocks the deploy.
+
+### One-time setup
+
+1. In the Azure portal, create a **Static Web App**: plan **Free**, deployment source **Other**. The workflow in this repo is used instead of a generated one.
+2. In the new resource, open **Overview → Manage deployment token** and copy the token.
+3. In GitHub, go to **Settings → Secrets and variables → Actions** and add a repository secret named `AZURE_STATIC_WEB_APPS_API_TOKEN` with that token.
+4. In Azure, under **Settings → Environment variables**, add the API settings from [Configuration](#configuration).
 5. Set `url` in [`web/content/site.ts`](web/content/site.ts) to the production address so canonical URLs, the sitemap and Open Graph tags are correct.
 
 The Free plan includes the managed Functions API and costs nothing.
+
+### Hosting config
+
+[`web/public/staticwebapp.config.json`](web/public/staticwebapp.config.json) is copied into the build output and sets:
+
+- the API runtime (`dotnet-isolated:10.0`)
+- the custom 404 page
+- long-lived caching for hashed build assets
+- security headers: Content-Security-Policy, HSTS, `nosniff`, Referrer-Policy, Permissions-Policy
+
+The SWA CLI's bundled schema doesn't list .NET 10 yet, so `npm run preview` hands the emulator a copy without the `platform` section (see [`scripts/swa-local-config.mjs`](scripts/swa-local-config.mjs)).
 
 ## Design notes and trade-offs
 

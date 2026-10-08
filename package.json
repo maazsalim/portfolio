@@ -5,7 +5,7 @@
   "scripts": {
     "setup": "npm install && npm --prefix web install && dotnet restore api",
     "dev": "concurrently --names web,api --prefix-colors cyan,magenta --kill-others \"npm:dev:web\" \"npm:dev:api\"",
-    "dev:azure": "concurrently --names web,api,swa --prefix-colors cyan,magenta,gray --kill-others \"npm:dev:web\" \"npm:dev:api\" \"npm:dev:swa\"",
+    "preview": "npm --prefix web run build && node scripts/swa-local-config.mjs && concurrently --names api,swa --prefix-colors magenta,gray --kill-others \"npm:dev:api\" \"npm:dev:swa\"",
     "dev:web": "npm --prefix web run dev",
     "dev:api": "cd api/Portfolio.Api && func start",
     "dev:swa": "swa start portfolio",
