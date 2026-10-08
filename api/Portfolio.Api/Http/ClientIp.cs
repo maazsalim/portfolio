@@ -8,9 +8,11 @@ public static class ClientIp
     /// <summary>
     /// Headers that may carry the original client address, most specific first.
     /// The Functions host rewrites X-Forwarded-For before it reaches this isolated
-    /// worker, so platform headers that pass through untouched are checked first.
+    /// worker, and on Static Web Apps the connection address is an Azure proxy,
+    /// so platform headers that pass through untouched are checked first.
+    /// CLIENT-IP is set by the App Service front end that hosts managed Functions.
     /// </summary>
-    private static readonly string[] CandidateHeaders = ["X-Azure-ClientIP", "X-Client-IP", "X-Forwarded-For"];
+    private static readonly string[] CandidateHeaders = ["CLIENT-IP", "X-Azure-ClientIP", "X-Client-IP", "X-Forwarded-For"];
 
     /// <summary>
     /// Best-effort client IP for rate limiting. Header values can be spoofed, so this

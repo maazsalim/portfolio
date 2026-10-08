@@ -28,6 +28,18 @@ public class ClientIpTests
     }
 
     [Fact]
+    public void Prefers_app_service_client_ip_header()
+    {
+        var request = Request(new()
+        {
+            ["CLIENT-IP"] = "203.0.113.7:51234",
+            ["X-Forwarded-For"] = "10.0.0.1",
+        }, remoteIp: "20.205.82.199");
+
+        Assert.Equal("203.0.113.7", ClientIp.Resolve(request));
+    }
+
+    [Fact]
     public void Prefers_platform_client_ip_headers_over_x_forwarded_for()
     {
         var request = Request(new()

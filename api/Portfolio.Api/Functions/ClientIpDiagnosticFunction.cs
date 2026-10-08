@@ -12,7 +12,7 @@ namespace Portfolio.Api.Functions;
 /// </summary>
 public sealed class ClientIpDiagnosticFunction
 {
-    private static readonly string[] IpHeaders = ["X-Azure-ClientIP", "X-Client-IP", "X-Forwarded-For", "X-Original-For"];
+    private static readonly string[] IpHeaders = ["CLIENT-IP", "X-Azure-ClientIP", "X-Client-IP", "X-Forwarded-For", "X-Original-For"];
 
     [Function("ClientIpDiagnostic")]
     public IActionResult Run(
