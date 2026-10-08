@@ -5,8 +5,8 @@ public sealed class ContactRateLimitOptions
 {
     public const string SectionName = "ContactRateLimit";
 
-    /// <summary>Messages allowed per client IP within one window.</summary>
-    public int PermitLimit { get; set; } = 3;
+    /// <summary>Messages allowed across the whole site within one window.</summary>
+    public int PermitLimit { get; set; } = 20;
 
-    public TimeSpan Window { get; set; } = TimeSpan.FromMinutes(15);
+    public TimeSpan Window { get; set; } = TimeSpan.FromHours(1);
 }

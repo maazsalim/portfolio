@@ -41,11 +41,12 @@ public class ContactFunctionTests
     }
 
     [Fact]
-    public async Task Rate_limits_by_client_ip()
+    public async Task Rate_limit_is_shared_across_the_whole_site()
     {
         await CreateFunction().Run(Request(ValidBody, clientIp: "198.51.100.9"), CancellationToken.None);
+        await CreateFunction().Run(Request(ValidBody, clientIp: "203.0.113.50"), CancellationToken.None);
 
-        Assert.Equal(["198.51.100.9"], _limiter.Keys);
+        Assert.Equal([ContactFunction.RateLimitKey, ContactFunction.RateLimitKey], _limiter.Keys);
     }
 
     [Theory]

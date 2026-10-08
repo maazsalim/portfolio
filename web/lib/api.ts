@@ -61,7 +61,7 @@ export async function sendContactMessage(request: ContactRequest): Promise<Conta
   if (response.status === 429) {
     return {
       ok: false,
-      message: "Too many messages from your connection. Please try again later.",
+      message: "The contact form is busy right now. Please try again later or email me directly.",
       fieldErrors: {},
     };
   }

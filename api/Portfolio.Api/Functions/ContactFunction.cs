@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.Extensions.Logging;
-using Portfolio.Api.Http;
 using Portfolio.Api.Models;
 using Portfolio.Api.Services.Email;
 using Portfolio.Api.Services.RateLimiting;
@@ -19,6 +18,13 @@ public sealed partial class ContactFunction(
     ILogger<ContactFunction> logger)
 {
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
+
+    /// <summary>
+    /// The limit is site-wide rather than per visitor: Static Web Apps managed
+    /// Functions only ever see an Azure proxy address, never the client's IP
+    /// (verified on the deployed app), so per-IP limiting isn't possible here.
+    /// </summary>
+    internal const string RateLimitKey = "contact-form";
 
     [Function("Contact")]
     public async Task<IActionResult> Run(
@@ -56,7 +62,7 @@ public sealed partial class ContactFunction(
         }
 
         // Only valid messages count toward the limit, so fixing a typo never locks anyone out.
-        var decision = rateLimiter.TryAcquire(ClientIp.Resolve(request));
+        var decision = rateLimiter.TryAcquire(RateLimitKey);
         if (!decision.IsAllowed)
         {
             LogRateLimited(logger);
@@ -65,7 +71,7 @@ public sealed partial class ContactFunction(
             return Problem(
                 StatusCodes.Status429TooManyRequests,
                 "Too many requests",
-                "Too many messages from your connection. Please try again later.");
+                "The contact form is busy right now. Please try again later or email me directly.");
         }
 
         var sent = await emailSender.SendContactMessageAsync(validation.Value, cancellationToken);

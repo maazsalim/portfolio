@@ -10,9 +10,9 @@ It is built to be fast and easy to skim for recruiters, and the repo is meant to
 
 - **Static front end:** Next.js (App Router) exported to plain HTML/CSS. No server rendering, about 1 KB of custom client JS for effects, and Lighthouse mobile scores of 98+ performance, 100 accessibility and 100 SEO on the compressed build.
 - **C# API on managed Functions:** .NET 10 isolated worker with dependency injection, typed options, DTOs, server-side validation and source-generated structured logging.
-- **Contact form:** validation, a honeypot field, per-IP rate limiting and email delivery through [Resend](https://resend.com). Errors use RFC 9457 problem details.
+- **Contact form:** validation, a honeypot field, a site-wide rate limit and email delivery through [Resend](https://resend.com). Errors use RFC 9457 problem details.
 - **Live GitHub feed:** recently pushed repos, cached for an hour, with a last-known-good fallback if GitHub is unavailable.
-- **57 xUnit tests:** validation, rate limiting, client IP parsing, both services (HTTP mocked) and both functions.
+- **xUnit tests** for validation, rate limiting, both services (HTTP mocked) and both functions.
 - **Content as data:** projects, experience and skills live in typed files under [`web/content`](web/content), so editing copy never means touching components.
 - **Accessible and responsive:** semantic landmarks, skip link, visible focus states, AA contrast in both themes, light/dark mode with no flash on load, and full support for reduced motion.
 
@@ -136,10 +136,10 @@ The link-preview image is a static file, [`web/app/opengraph-image.png`](web/app
 |---|---|
 | `202 Accepted` | Message sent (also returned when the `website` honeypot is filled, so bots learn nothing) |
 | `400 Bad Request` | Invalid JSON, or validation errors as a `ValidationProblemDetails` with per-field messages |
-| `429 Too Many Requests` | Over the rate limit; includes a `Retry-After` header |
+| `429 Too Many Requests` | Over the site-wide rate limit; includes a `Retry-After` header |
 | `502 Bad Gateway` | The email provider rejected or couldn't be reached |
 
-Only valid submissions count toward the rate limit (default: 3 per IP per 15 minutes), so a visitor fixing a typo is never locked out.
+Only valid submissions count toward the rate limit (default: 20 per hour across the whole site), so a visitor fixing a typo is never locked out. The limit is site-wide because Static Web Apps managed Functions only see an Azure proxy address, never the visitor's IP. I verified this on the deployed app, so per-IP limiting isn't possible on this plan. The cap keeps any spam burst inside the email provider's free quota.
 
 ### `GET /api/github`
 
@@ -167,8 +167,8 @@ Set these as application settings (Azure portal → Static Web App → **Environ
 | `Resend__To` | Yes (prod) | Where contact messages are delivered |
 | `GitHub__Username` | Yes | GitHub account to show |
 | `GitHub__Token` | No | Raises the GitHub rate limit from 60 to 5,000 requests per hour |
-| `ContactRateLimit__PermitLimit` | No | Messages per IP per window (default `3`) |
-| `ContactRateLimit__Window` | No | Window length as a `TimeSpan`, e.g. `00:15:00` (default) |
+| `ContactRateLimit__PermitLimit` | No | Messages allowed site-wide per window (default `20`) |
+| `ContactRateLimit__Window` | No | Window length as a `TimeSpan` (default `01:00:00`) |
 
 ## Deployment
 
@@ -202,7 +202,7 @@ The SWA CLI's bundled schema doesn't list .NET 10 yet, so `npm run preview` hand
 
 ## Design notes and trade-offs
 
-- **Rate limiting is in memory.** Each Functions instance keeps its own counters, which reset when an instance recycles. That's fine for a low-traffic contact form; strict limits would need a shared store such as Redis or Table Storage. Client IP headers can also be spoofed, so this is spam protection, not security.
+- **The contact rate limit is site-wide and in memory.** Managed Functions on Static Web Apps never see the visitor's IP, only an Azure proxy (verified in production), so a per-visitor limit isn't possible without a separately hosted Functions app on a paid plan. A site-wide cap still bounds spam and protects the email quota. Each Functions instance keeps its own counter, which resets when the instance recycles. That's fine at portfolio traffic; strict limits would need a shared store such as Redis or Table Storage.
 - **Static export over server rendering.** Content changes only on deploy, so pre-rendered HTML is faster, cheaper and simpler. The two dynamic features (contact, GitHub feed) run through the API.
 - **Effects are CSS-first.** The cursor glow and card highlights run on two CSS variables updated once per frame. Scroll reveals use CSS scroll-driven animations. All motion is off for `prefers-reduced-motion`, and browsers without support show static content.
 
