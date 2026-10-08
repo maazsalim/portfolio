@@ -65,7 +65,8 @@ export const projects: Project[] = [
         "Keeping the site fully static (no server rendering) while still showing live data, solved by loading the GitHub feed client-side and degrading gracefully if the API fails.",
       ],
       results: [
-        "TODO: Lighthouse scores once deployed.",
+        "Lighthouse 100 in all four categories (performance, accessibility, best practices, SEO) on both mobile and desktop, measured on the live site.",
+        "Every deploy is gated on lint, typecheck and the full xUnit suite passing in CI.",
       ],
     },
   },

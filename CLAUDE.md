@@ -58,13 +58,12 @@ The first `npm run dev` takes ~30s while the API compiles.
 
 ## Status and next steps (as of 2026-10-08)
 
-Done: stages 1–4 (scaffold, frontend, API + tests, SWA config + CI/CD), README, Spotlight design.
+Done: stages 1–4 (scaffold, frontend, API + tests, SWA config + CI/CD), README, Spotlight design. Live Lighthouse: 100 in all four categories, mobile and desktop (recorded in the README and the portfolio case study).
 
 Remaining:
 1. **Resend:** confirm the three `Resend__*` settings are in Azure, then send a test message through the live form.
 2. **Azure budget alert** (e.g. email at $1) under Cost Management.
-3. **Lighthouse on the live site** and record the scores in the README.
-4. **Content TODOs** (`npm run todo`): ParkItPlace role, links, challenges and results; Face Detection repo link, challenges and results; portfolio Lighthouse result.
-5. Optional: custom domain (buy one, add it under SWA → Custom domains, update `url` in `web/content/site.ts`).
+3. **Content TODOs** (`npm run todo`): ParkItPlace role, links, challenges and results; Face Detection repo link, challenges and results.
+4. Optional: custom domain (buy one, add it under SWA → Custom domains, update `url` in `web/content/site.ts`).
 
 Long-term: .NET 10 support ends Nov 2028, so upgrade `TargetFramework` and `apiRuntime` before then.

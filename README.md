@@ -8,7 +8,8 @@ It is built to be fast and easy to skim for recruiters, and the repo is meant to
 
 ## Highlights
 
-- **Static front end:** Next.js (App Router) exported to plain HTML/CSS. No server rendering, about 1 KB of custom client JS for effects, and Lighthouse mobile scores of 98+ performance, 100 accessibility and 100 SEO on the compressed build.
+- **Static front end:** Next.js (App Router) exported to plain HTML/CSS. No server rendering and about 1 KB of custom client JS for effects.
+- **Lighthouse 100 / 100 / 100 / 100** (performance, accessibility, best practices, SEO) on both mobile and desktop, measured on the live site (see [Lighthouse](#lighthouse)).
 - **C# API on managed Functions:** .NET 10 isolated worker with dependency injection, typed options, DTOs, server-side validation and source-generated structured logging.
 - **Contact form:** validation, a honeypot field, a site-wide rate limit and email delivery through [Resend](https://resend.com). Errors use RFC 9457 problem details.
 - **Live GitHub feed:** recently pushed repos, cached for an hour, with a last-known-good fallback if GitHub is unavailable.
@@ -199,6 +200,17 @@ The Free plan includes the managed Functions API and costs nothing.
 - security headers: Content-Security-Policy, HSTS, `nosniff`, Referrer-Policy, Permissions-Policy
 
 The SWA CLI's bundled schema doesn't list .NET 10 yet, so `npm run preview` hands the emulator a copy without the `platform` section (see [`scripts/swa-local-config.mjs`](scripts/swa-local-config.mjs)).
+
+## Lighthouse
+
+Measured on the live site with Lighthouse in October 2026:
+
+| | Performance | Accessibility | Best Practices | SEO |
+|---|---|---|---|---|
+| Mobile | 100 | 100 | 100 | 100 |
+| Desktop | 100 | 100 | 100 | 100 |
+
+Mobile (simulated mid-range phone on slow 4G): largest contentful paint 1.2 s, cumulative layout shift 0.
 
 ## Design notes and trade-offs
 
