@@ -2,8 +2,7 @@
 
 My personal portfolio: a statically exported **Next.js** site with a small **C# Azure Functions** API, deployed together on **Azure Static Web Apps**.
 
-<!-- TODO(stage 4): replace with the production URL once deployed. -->
-**Live site:** _coming soon_
+**Live site:** [ambitious-cliff-0d6dd630f.5.azurestaticapps.net](https://ambitious-cliff-0d6dd630f.5.azurestaticapps.net)
 
 It is built to be fast and easy to skim for recruiters, and the repo is meant to show how I structure a real full-stack project: typed content, a tested API with services behind interfaces, and CI/CD.
 
@@ -122,6 +121,8 @@ Everything visible on the site comes from [`web/content`](web/content):
 | [`skills.ts`](web/content/skills.ts) | Grouped skills |
 
 [`types.ts`](web/content/types.ts) defines the shape of each, so TypeScript flags missing or misspelled fields.
+
+The link-preview image is a static file, [`web/app/opengraph-image.png`](web/app/opengraph-image.png) (1200×630). Replace it if your name or title changes.
 
 ## API
 

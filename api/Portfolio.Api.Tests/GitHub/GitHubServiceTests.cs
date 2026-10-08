@@ -27,11 +27,11 @@ public class GitHubServiceTests
 
     private readonly MemoryCache _cache = new(new MemoryCacheOptions());
 
-    private GitHubService CreateService(HttpMessageHandler handler, int repoCount = 4) =>
+    private GitHubService CreateService(HttpMessageHandler handler, int repoCount = 4, string username = "maazsalim") =>
         new(
             new HttpClient(handler) { BaseAddress = new Uri("https://api.github.com/") },
             _cache,
-            MsOptions.Create(new GitHubOptions { Username = "maazsalim", RepoCount = repoCount }),
+            MsOptions.Create(new GitHubOptions { Username = username, RepoCount = repoCount }),
             NullLogger<GitHubService>.Instance);
 
     [Fact]
@@ -110,6 +110,18 @@ public class GitHubServiceTests
         var service = CreateService(StubHttpMessageHandler.Json(status, body));
 
         await Assert.ThrowsAsync<GitHubUnavailableException>(() => service.GetActivityAsync(CancellationToken.None));
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData("   ")]
+    public async Task Throws_unavailable_without_calling_github_when_username_is_missing(string username)
+    {
+        var handler = StubHttpMessageHandler.Json(HttpStatusCode.OK, ReposJson);
+
+        await Assert.ThrowsAsync<GitHubUnavailableException>(
+            () => CreateService(handler, username: username).GetActivityAsync(CancellationToken.None));
+        Assert.Empty(handler.Requests);
     }
 
     [Fact]

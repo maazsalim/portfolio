@@ -44,8 +44,8 @@ export const projects: Project[] = [
     period: "2026",
     tech: ["Next.js", "TypeScript", "Tailwind CSS", "C#", "Azure Functions", "xUnit", "Azure Static Web Apps"],
     links: {
-      demo: undefined, // TODO: set to the production URL after stage 4
-      repo: "https://github.com/maazsalim/portfolio", // TODO: confirm repo name once created
+      demo: "https://ambitious-cliff-0d6dd630f.5.azurestaticapps.net",
+      repo: "https://github.com/maazsalim/portfolio",
     },
     caseStudy: {
       problem:

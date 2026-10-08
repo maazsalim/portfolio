@@ -13,8 +13,7 @@ export const site: SiteConfig = {
   ],
   email: "maazsalim@gmail.com",
   location: "Toronto, Ontario",
-  // TODO: replace with the real URL once the Static Web App is created (stage 4).
-  url: "https://TODO-portfolio.azurestaticapps.net",
+  url: "https://ambitious-cliff-0d6dd630f.5.azurestaticapps.net",
   resumePath: "/resume.pdf",
   githubUsername: "maazsalim",
   links: {

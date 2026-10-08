@@ -25,6 +25,12 @@ public sealed partial class GitHubService(
 
     public async Task<GitHubActivityDto> GetActivityAsync(CancellationToken cancellationToken)
     {
+        if (string.IsNullOrWhiteSpace(_options.Username))
+        {
+            LogNotConfigured(logger);
+            throw new GitHubUnavailableException("GitHub__Username is not configured.");
+        }
+
         if (cache.TryGetValue(CacheKey, out GitHubActivityDto? cached) && cached is not null)
             return cached;
 
@@ -72,6 +78,9 @@ public sealed partial class GitHubService(
         LogFetched(logger, summaries.Count, _options.Username);
         return new GitHubActivityDto($"https://github.com/{_options.Username}", summaries);
     }
+
+    [LoggerMessage(Level = LogLevel.Error, Message = "GitHub is not configured. Set the GitHub__Username app setting.")]
+    private static partial void LogNotConfigured(ILogger logger);
 
     [LoggerMessage(Level = LogLevel.Information, Message = "Fetched {RepoCount} repos for {GitHubUser} from GitHub")]
     private static partial void LogFetched(ILogger logger, int repoCount, string gitHubUser);
