@@ -75,8 +75,53 @@ export interface Experience {
   /** Display strings, e.g. "May 2023". */
   start: string;
   end: string | "Present";
+  /** Supports Markdown-style links: "[cut sync time](/writing/some-article/)". */
   bullets: string[];
   tech: string[];
+  /** Optional link to a related article, e.g. a write-up of one of the bullets. */
+  writeUp?: { href: string; label: string };
+}
+
+/* ---------- Articles ("Writing") ---------- */
+
+/**
+ * Inline text in article blocks. Wrap code in backticks (`like this`) and it
+ * renders as inline code; everything else is plain text.
+ */
+export type InlineText = string;
+
+export type ArticleBlock =
+  | { type: "paragraph"; text: InlineText }
+  | { type: "heading"; text: string }
+  | { type: "subheading"; text: string }
+  /** A highlighted takeaway. */
+  | { type: "callout"; text: InlineText }
+  /** `lead` is shown in bold before the item text. */
+  | { type: "list"; ordered?: boolean; items: { lead?: string; text: InlineText }[] }
+  /** `caption` is a short note shown under the code. */
+  | { type: "code"; language: string; code: string; caption?: string }
+  | { type: "table"; caption: string; head: string[]; rows: string[][] }
+  /** Horizontal bars drawn to the same scale, e.g. before/after timings. */
+  | {
+      type: "barChart";
+      caption: string;
+      unit: string;
+      max: number;
+      ticks: number[];
+      bars: { label: string; value: number; display: string; highlight?: boolean }[];
+    };
+
+export interface Article {
+  /** URL segment for /writing/[slug]. */
+  slug: string;
+  /** Small label above the title, e.g. "Engineering notes". */
+  kicker: string;
+  title: string;
+  /** One or two sentences under the title, also used for the card and SEO. */
+  summary: string;
+  /** ISO date, e.g. "2026-10-13". */
+  published: string;
+  body: ArticleBlock[];
 }
 
 export interface SkillGroup {

@@ -7,11 +7,13 @@ import { Hero } from "@/components/sections/Hero";
 import { Projects } from "@/components/sections/Projects";
 import { RecentActivity } from "@/components/sections/RecentActivity";
 import { Skills } from "@/components/sections/Skills";
+import { Writing } from "@/components/sections/Writing";
 import type { NavItem } from "@/components/ui/SectionNav";
 
 const navItems: NavItem[] = [
   { id: "projects", label: "Projects" },
   { id: "experience", label: "Experience" },
+  { id: "writing", label: "Writing" },
   { id: "skills", label: "Skills" },
   { id: "about", label: "About" },
   { id: "contact", label: "Contact" },
@@ -42,6 +44,7 @@ export default function Home() {
         <main id="content" tabIndex={-1} className="pt-16 outline-none lg:w-[52%] lg:py-24">
           <Projects />
           <Experience />
+          <Writing />
           <Skills />
           <About />
           <RecentActivity />

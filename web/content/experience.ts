@@ -11,10 +11,11 @@ export const experience: Experience[] = [
     end: "Present",
     bullets: [
       "Led the rebuild of a 459K-member loyalty analytics platform from React/Supabase into a .NET 10 Blazor Server and PostgreSQL application (EF Core, MudBlazor), matching all 15 reporting pages while moving business logic from database functions into tested C#.",
-      "Re-engineered the Braze data sync from serverless 45-second slices into a single background job with batched upserts, cutting full syncs from up to 2.5 hours to about 6 minutes, backed by 145 automated tests including end-to-end runs against a mock Braze API.",
+      "Re-engineered the Braze data sync from serverless 45-second slices into a single background job with batched upserts, [cutting full syncs from up to 2.5 hours to about 6 minutes](/writing/sync-2-5-hours-to-6-minutes/), backed by 145 automated tests including end-to-end runs against a mock Braze API.",
       "Built an Azure DevOps CI/CD pipeline targeting Azure App Service and Azure Database for PostgreSQL, and designed the plan for migrating production data from Supabase.",
     ],
     tech: [".NET 10", "Blazor", "C#", "EF Core", "PostgreSQL", "MudBlazor", "Azure DevOps", "Azure App Service"],
+    writeUp: { href: "/writing/sync-2-5-hours-to-6-minutes/", label: "Read the write-up on the sync rebuild" },
   },
   {
     company: "Uqaab Consultants Inc.",

@@ -24,3 +24,6 @@ api/**/local.settings.json
 
 # Claude Code local config
 .claude/
+
+# Local Claude Code notes (kept private)
+CLAUDE.md

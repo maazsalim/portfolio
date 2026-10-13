@@ -1,4 +1,7 @@
 import { experience } from "@/content/experience";
+import Link from "next/link";
+import { ArrowUpRightIcon } from "@/components/ui/Icons";
+import { LinkedText } from "@/components/ui/LinkedText";
 import { Section } from "@/components/ui/Section";
 import { TagList } from "@/components/ui/TagList";
 
@@ -21,9 +24,20 @@ export function Experience() {
                 </p>
                 <ul className="mt-3 list-disc space-y-2 pl-4 text-sm leading-normal marker:text-accent">
                   {job.bullets.map((bullet) => (
-                    <li key={bullet}>{bullet}</li>
+                    <li key={bullet}>
+                      <LinkedText text={bullet} />
+                    </li>
                   ))}
                 </ul>
+                {job.writeUp && (
+                  <Link
+                    href={job.writeUp.href}
+                    className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-fg-strong hover:text-accent"
+                  >
+                    {job.writeUp.label}
+                    <ArrowUpRightIcon className="h-4 w-4" />
+                  </Link>
+                )}
                 <TagList tags={job.tech} label={`Technologies used at ${job.company}`} />
               </div>
             </article>
