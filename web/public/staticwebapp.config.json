@@ -15,6 +15,12 @@
       "headers": {
         "Cache-Control": "public, max-age=3600"
       }
+    },
+    {
+      "route": "/videos/*.mp4",
+      "headers": {
+        "Content-Type": "video/mp4"
+      }
     }
   ],
   "responseOverrides": {
@@ -30,6 +36,7 @@
     "Strict-Transport-Security": "max-age=31536000; includeSubDomains"
   },
   "mimeTypes": {
-    ".txt": "text/plain; charset=utf-8"
+    ".txt": "text/plain; charset=utf-8",
+    ".mp4": "video/mp4"
   }
 }
