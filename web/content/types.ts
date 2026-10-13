@@ -37,6 +37,15 @@ export interface CaseStudy {
   results: string[];
 }
 
+export interface DemoVideo {
+  /** Path under /public, e.g. "/videos/demo.mp4". H.264 MP4 for browser support. */
+  src: string;
+  /** Still frame shown before playback; also reserves the layout space. */
+  poster: string;
+  /** Short text for the play link and screen readers, e.g. "2-minute walkthrough". */
+  description: string;
+}
+
 export interface Project {
   /** URL segment for /projects/[slug]. Lowercase, hyphenated. */
   slug: string;
@@ -47,9 +56,12 @@ export interface Project {
   period: string;
   tech: string[];
   links: {
+    /** A live, deployed version. */
     demo?: string;
     repo?: string;
   };
+  /** A recorded walkthrough hosted with the site, shown on the case study. */
+  video?: DemoVideo;
   caseStudy: CaseStudy;
 }
 

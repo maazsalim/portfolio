@@ -37,7 +37,7 @@ export default async function ProjectPage(props: PageProps<"/projects/[slug]">) 
   const project = findProject(slug);
   if (!project) notFound();
 
-  const { title, problem, role, period, tech, links, caseStudy } = project;
+  const { title, problem, role, period, tech, links, video, caseStudy } = project;
 
   return (
     <div className="mx-auto min-h-screen max-w-3xl px-6 py-12 md:px-12 md:py-20">
@@ -82,6 +82,29 @@ export default async function ProjectPage(props: PageProps<"/projects/[slug]">) 
               </div>
             )}
           </header>
+
+          {video && (
+            <section id="demo" aria-labelledby="demo-heading" className="mt-10 scroll-mt-8">
+              <h2 id="demo-heading" className="text-sm font-bold tracking-widest text-fg-strong uppercase">
+                Demo
+              </h2>
+              {/* preload="none": nothing downloads until play, so the page stays fast. */}
+              <video
+                className="mt-3 aspect-video w-full rounded-xl border border-border bg-card"
+                controls
+                playsInline
+                preload="none"
+                poster={video.poster}
+                width={1920}
+                height={1080}
+                aria-label={video.description}
+              >
+                <source src={video.src} type="video/mp4" />
+                Your browser can&apos;t play this video. <a href={video.src}>Download it instead</a>.
+              </video>
+              <p className="mt-2 text-sm text-fg-muted">{video.description}.</p>
+            </section>
+          )}
 
           <CaseStudySection title="The problem">
             <p>{caseStudy.problem}</p>

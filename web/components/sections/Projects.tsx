@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { projects } from "@/content/projects";
 import type { Project } from "@/content/types";
-import { ArrowUpRightIcon, GitHubIcon } from "@/components/ui/Icons";
+import { ArrowUpRightIcon, GitHubIcon, PlayIcon } from "@/components/ui/Icons";
 import { Section } from "@/components/ui/Section";
 import { TagList } from "@/components/ui/TagList";
 
@@ -20,7 +20,7 @@ export function Projects() {
 }
 
 function ProjectCard({ project }: { project: Project }) {
-  const { slug, title, problem, role, tech, links } = project;
+  const { slug, title, problem, role, tech, links, video } = project;
 
   return (
     <article className="spotlight-card group relative grid gap-2 rounded-xl p-5 transition-all duration-300 lg:group-hover/list:opacity-60 lg:hover:-translate-y-0.5 lg:hover:opacity-100! lg:hover:shadow-[0_12px_40px_-16px_var(--accent)]">
@@ -41,9 +41,18 @@ function ProjectCard({ project }: { project: Project }) {
       </p>
       <TagList tags={tech} label={`Technologies used in ${title}`} />
 
-      {(links.demo || links.repo) && (
+      {(links.demo || links.repo || video) && (
         // relative z-10 lifts these links above the card-wide click target.
         <div className="relative z-10 mt-2 flex gap-4 text-sm font-medium">
+          {video && (
+            <Link
+              href={`/projects/${slug}/#demo`}
+              className="inline-flex items-center gap-1 text-fg-strong hover:text-accent"
+            >
+              <PlayIcon className="h-4 w-4" />
+              Watch demo <span className="sr-only">of {title}</span>
+            </Link>
+          )}
           {links.demo && (
             <a
               href={links.demo}

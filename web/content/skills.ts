@@ -3,18 +3,26 @@ import type { SkillGroup } from "./types";
 export const skills: SkillGroup[] = [
   {
     name: "Backend",
-    skills: ["C#", "ASP.NET Core", "EF Core", "Hangfire", "Azure Functions", "Node.js"],
+    skills: ["C#", ".NET", "ASP.NET Core", "Blazor", "EF Core", "Hangfire", "Azure Functions", "Node.js / Express"],
   },
   {
     name: "Frontend",
-    skills: ["React", "TypeScript", "React Native", "Next.js", "Tailwind CSS"],
+    skills: ["React", "TypeScript", "React Native", "Next.js", "Tailwind CSS", "MudBlazor"],
   },
   {
     name: "Data",
-    skills: ["SQL Server", "PostgreSQL", "Firebase"],
+    skills: ["PostgreSQL", "SQL Server", "Firestore", "Supabase"],
   },
   {
     name: "DevOps & Cloud",
-    skills: ["Azure", "GitHub Actions", "Linux / Bash", "Git"],
+    skills: ["Azure", "Azure DevOps", "GitHub Actions", "Linux / Bash", "Git"],
+  },
+  {
+    name: "Testing",
+    skills: ["xUnit", "Jest", "React Testing Library"],
+  },
+  {
+    name: "Languages",
+    skills: ["C#", "TypeScript", "JavaScript", "Python", "SQL", "C", "Haskell"],
   },
 ];
