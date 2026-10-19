@@ -3,6 +3,53 @@ import type { Project } from "./types";
 /** Display order = array order. Keep 3–5 projects, strongest first. */
 export const projects: Project[] = [
   {
+    slug: "dual-expense-tracker",
+    title: "Dual Expense Tracker",
+    problem: "Track spending split between Dubai and Canada, with totals that are exact in both AED and CAD.",
+    role: "Solo developer",
+    period: "2026",
+    tech: [".NET 10", "Blazor Server", "C#", "PostgreSQL", "EF Core", "ASP.NET Core Identity", "Azure App Service", "GitHub Actions", "xUnit"],
+    links: {
+      demo: "https://dual-expense-maaz-cngvdrcrahfjfker.francecentral-01.azurewebsites.net",
+      repo: "https://github.com/maazsalim/ExpenseTracker",
+    },
+    demoLogin: {
+      email: "demo@example.com",
+      password: "Try-Dual-Expense-2026",
+      note: "Made-up data that resets every day, so add, edit or delete anything. It runs on free hosting that sleeps when idle, so the first load can take 10–20 seconds.",
+    },
+    caseStudy: {
+      problem:
+        "My spending is split between Dubai and Canada: rent and groceries in dirhams, subscriptions on a Canadian card. Ordinary expense trackers assume one currency, so their totals never showed what I'd actually spent. I wanted one app where every expense keeps the currency it was paid in and every total is exact in either currency.",
+      approach: [
+        "Every expense keeps its original currency plus its amount in both CAD and AED at that day's rate, fixed when it's saved, so history never changes when rates move.",
+        "A CAD | AED switch shows every total in either currency.",
+        "Free exchange-rate sources don't include AED, so the app derives it from the US dollar using the fixed peg (1 USD = 3.6725 AED).",
+        "Budgets per category and overall, recurring expenses that catch up on any missed months, a separate \"pending\" figure for what's still due this month, and totals per account or card (\"Paid with\").",
+        "Installable on iPhone as a PWA: full-screen, with a home-screen icon, and it reconnects quietly after being in the background.",
+      ],
+      architecture: [
+        "ASP.NET Core Blazor Server on .NET 10, with PostgreSQL through Entity Framework Core and migrations.",
+        "Sign-in with ASP.NET Core Identity. An EF Core global query filter limits every query to the signed-in user (and returns nothing if nobody is signed in), and saving refuses changes to another user's data.",
+        "Exchange rates from Frankfurter (ECB data), cached in the database. Today's rate is shared app-wide, and saved rates are the fallback if the service is slow or down, so pages never wait on it.",
+        "Hosted for free on Azure App Service (Free tier, Linux) with Neon serverless PostgreSQL.",
+        "GitHub Actions on every push to main: build, test, apply database migrations, then deploy.",
+      ],
+      challenges: [
+        "No AED in free rate sources: deriving it through the USD peg avoided paying for a rate API without losing accuracy.",
+        "Money that stays exact: decimal in C# and numeric in Postgres, never floating point, with conversions fixed at save time so past totals don't drift.",
+        "A host that sleeps when idle: with no background timers to rely on, recurring entries and the daily demo reset run when the app is opened, catching up on anything missed.",
+        "Blazor Server on a phone: iOS pauses backgrounded apps and drops the live connection, so the app reconnects quietly instead of showing an error.",
+        "A public demo beside real data: per-user isolation is enforced in one place, and tests with two users prove one can never see the other's data.",
+      ],
+      results: [
+        "Live and installable on iPhone, with a public demo account that resets every day.",
+        "xUnit tests cover currency conversion and rounding, the peg, rate caching, recurring schedules, pending amounts and per-user data isolation, and every deploy waits for them to pass.",
+        "Runs at no cost on free tiers (Azure App Service and Neon).",
+      ],
+    },
+  },
+  {
     slug: "parkitplace",
     title: "ParkItPlace",
     problem:

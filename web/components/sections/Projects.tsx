@@ -20,7 +20,7 @@ export function Projects() {
 }
 
 function ProjectCard({ project }: { project: Project }) {
-  const { slug, title, problem, role, tech, links, video } = project;
+  const { slug, title, problem, role, tech, links, video, demoLogin } = project;
 
   return (
     <article className="spotlight-card group relative grid gap-2 rounded-xl p-5 transition-all duration-300 lg:group-hover/list:opacity-60 lg:hover:-translate-y-0.5 lg:hover:opacity-100! lg:hover:shadow-[0_12px_40px_-16px_var(--accent)]">
@@ -76,6 +76,14 @@ function ProjectCard({ project }: { project: Project }) {
             </a>
           )}
         </div>
+      )}
+      {demoLogin && (
+        // relative z-10 keeps the login selectable above the card-wide link.
+        <p className="relative z-10 text-xs text-fg-muted">
+          Demo login:{" "}
+          <span className="font-mono text-fg">{demoLogin.email}</span> ·{" "}
+          <span className="font-mono text-fg">{demoLogin.password}</span>
+        </p>
       )}
     </article>
   );

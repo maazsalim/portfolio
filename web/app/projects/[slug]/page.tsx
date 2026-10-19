@@ -37,7 +37,7 @@ export default async function ProjectPage(props: PageProps<"/projects/[slug]">) 
   const project = findProject(slug);
   if (!project) notFound();
 
-  const { title, problem, role, period, tech, links, video, caseStudy } = project;
+  const { title, problem, role, period, tech, links, video, demoLogin, caseStudy } = project;
 
   return (
     <div className="mx-auto min-h-screen max-w-3xl px-6 py-12 md:px-12 md:py-20">
@@ -82,6 +82,31 @@ export default async function ProjectPage(props: PageProps<"/projects/[slug]">) 
               </div>
             )}
           </header>
+
+          {demoLogin && links.demo && (
+            <section id="try-it" aria-labelledby="try-it-heading" className="mt-10 rounded-xl border border-accent bg-accent-soft p-5">
+              <h2 id="try-it-heading" className="text-sm font-bold tracking-widest text-fg-strong uppercase">
+                Try it
+              </h2>
+              <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
+                <dt className="text-fg-muted">Email</dt>
+                <dd className="font-mono text-fg-strong">{demoLogin.email}</dd>
+                <dt className="text-fg-muted">Password</dt>
+                <dd className="font-mono text-fg-strong">{demoLogin.password}</dd>
+              </dl>
+              {demoLogin.note && <p className="mt-3 text-sm">{demoLogin.note}</p>}
+              <a
+                href={links.demo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-4 inline-flex items-center gap-2 rounded-md bg-accent px-4 py-2 text-sm font-semibold text-bg transition-opacity hover:opacity-90"
+              >
+                Open the live app
+                <ArrowUpRightIcon className="h-4 w-4" />
+                <span className="sr-only">(opens in a new tab)</span>
+              </a>
+            </section>
+          )}
 
           {video && (
             <section id="demo" aria-labelledby="demo-heading" className="mt-10 scroll-mt-8">

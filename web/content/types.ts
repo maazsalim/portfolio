@@ -46,6 +46,13 @@ export interface DemoVideo {
   description: string;
 }
 
+export interface DemoLogin {
+  email: string;
+  password: string;
+  /** Shown on the case study, e.g. a slow first load on free hosting. */
+  note?: string;
+}
+
 export interface Project {
   /** URL segment for /projects/[slug]. Lowercase, hyphenated. */
   slug: string;
@@ -62,6 +69,8 @@ export interface Project {
   };
   /** A recorded walkthrough hosted with the site, shown on the case study. */
   video?: DemoVideo;
+  /** Public demo account for the live app (fake data only). */
+  demoLogin?: DemoLogin;
   caseStudy: CaseStudy;
 }
 
